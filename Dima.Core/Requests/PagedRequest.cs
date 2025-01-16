@@ -1,4 +1,6 @@
-namespace Dima.Api.Requests;
+using Dima.Api;
+
+namespace Dima.Core.Requests;
 
 public abstract class PagedRequest : Request
 {

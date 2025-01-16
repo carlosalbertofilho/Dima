@@ -1,8 +1,9 @@
 using System.Text.Json.Serialization;
+using Dima.Api;
 
-namespace Dima.Api.Responses;
+namespace Dima.Core.Responses;
 
-[param: JsonConstructor] public record PagedResponse<T>
+[method: JsonConstructor] public record PagedResponse<T>
     ( int TotalCount
     , int PageSize = Configuration.DefaultPageSize    
     , int CurrentPage = Configuration.DefaultPageNumber
@@ -11,9 +12,7 @@ namespace Dima.Api.Responses;
     , string? Message = null)
     : Response<T>( Data, Code, Message)
 {
-    public int TotalPages => (int) Math.Ceiling( TotalCount / (double)PageSize);
+    public int TotalPages => (int) Math.Ceiling( TotalCount / (double) PageSize );
 
-    public PagedResponse() :
-        this ( 1
-             ) { }
+    public PagedResponse() : this ( 1 ) { }
 }

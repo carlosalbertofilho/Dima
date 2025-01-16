@@ -1,14 +1,14 @@
 using System.Text.Json.Serialization;
+using Dima.Api;
 
-namespace Dima.Api.Responses;
+namespace Dima.Core.Responses;
 
-public record Response<T>
+[method: JsonConstructor] public record Response<T>
     ( T? Data
     , int Code = Configuration.DefaultStatusCode
     , string? Message = null)
 {
     [JsonIgnore] public bool IsSuccess => Code is >= 200 and < 300;
 
-    [JsonConstructor] public Response() : 
-        this (default, 200) {}
+    public Response() : this (default, 200) {}
 }
