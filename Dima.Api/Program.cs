@@ -1,5 +1,11 @@
+using Azure;
 using Dima.Api.Data;
+using Dima.Api.Handlers;
 using Dima.Core.Enums;
+using Dima.Core.Handlers;
+using Dima.Core.Models;
+using Dima.Core.Requests.Categories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -19,6 +25,9 @@ builder.Services.AddSwaggerGen(options =>
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Dima.Api", Version = "v1" });
 });
 
+// Add CategoryHandler
+builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+
 var app = builder.Build();
 
 app.UseSwagger();
@@ -31,45 +40,35 @@ app.UseSwaggerUI(options =>
 // Endpoints
 app.MapPost
     ("/v1/transactions"
-    , (Resquest request) =>  new Handler().Handle(request))
-    .WithName("Transaction: Create")
-    .WithSummary("Cria uma nova transação")
-    .Produces<Response>();
+    , ( [FromBody] CreateCategoryRequest request
+      , [FromServices] ICategoryHandler handler) =>  handler.CreateAsync(request))
+    .WithName("Category: Create")
+    .WithSummary("Cria uma nova categoria")
+    .Produces<Response<Category>>();
+
+app.MapPut
+    ("/v1/transactions"
+    , ( [FromBody] UpdateCategoryRequest request
+      , [FromServices] ICategoryHandler handler) => handler.UpdateAsync(request))
+    .WithName("Category: Update")
+    .WithSummary("Atualiza uma categoria")
+    .Produces<Response<Category>>();
+
+app.MapDelete
+    ("/v1/transactions"
+    , ( [FromBody] DeleteCategoryRequest request
+      , [FromServices] ICategoryHandler handler) => handler.DeleteAsync(request))
+    .WithName("Category: Delete")
+    .WithSummary("Deleta uma categoria")
+    .Produces<Response<Category>>();
+
+app.MapGet
+    ("/v1/transactions/"
+    , ( [FromBody] GetCategoryByIdRequest request
+      , [FromServices] ICategoryHandler handler) => handler.GetByIdAsync(request))
+    .WithName("Category: GetById")
+    .WithSummary("Busca uma categoria por id")
+    .Produces<Response<Category>>();
+    
 
 app.Run();
-
-// Request
-public record Resquest
-    ( long Id
-    , string Title
-    , string UserId
-    , ETransactionType Type
-    , decimal Amount
-    , long CategoryId)
-{ }
-
-// response
-public record Response
-    ( long Id
-    , string Title
-    , string UserId
-    , ETransactionType Type
-    , decimal Amount
-    , long CategoryId
-    , DateTime PaidOrReceivedAt
-    , DateTime CreatedAt)
-{}
-    
-// handle
-public class Handler()
-{
-    public Response Handle(Resquest request)
-    => new ( request.Id
-        , request.Title
-        , request.UserId
-        , request.Type
-        , request.Amount
-        , request.CategoryId
-        , DateTime.Now
-        , DateTime.Now);
-}

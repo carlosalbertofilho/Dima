@@ -2,7 +2,7 @@ using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
 using Dima.Core.Responses;
 
-namespace Dima.Api.Handlers;
+namespace Dima.Core.Handlers;
 
 public interface ICategoryHandler
 {
