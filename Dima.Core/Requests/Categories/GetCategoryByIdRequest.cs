@@ -8,4 +8,9 @@ public class GetCategoryByIdRequest(long id) : Request
     [Range(1, long.MaxValue)]
     [Display(Name = "Category Id")]
     public long Id { get; set; } = id;
+
+    public GetCategoryByIdRequest(long id, string userId) : this(id)
+    {
+        UserId = userId;
+    }
 }

@@ -1,10 +1,9 @@
-using Azure;
 using Dima.Api.Data;
 using Dima.Api.Handlers;
-using Dima.Core.Enums;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
 using Dima.Core.Requests.Categories;
+using Dima.Core.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -26,7 +25,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Add CategoryHandler
-builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+builder.Services.AddScoped<ICategoryHandler, CategoryHandler>();
 
 var app = builder.Build();
 
@@ -40,35 +39,53 @@ app.UseSwaggerUI(options =>
 // Endpoints
 app.MapPost
     ("/v1/transactions"
-    , ( [FromBody] CreateCategoryRequest request
-      , [FromServices] ICategoryHandler handler) =>  handler.CreateAsync(request))
+    , async ( [FromBody] CreateCategoryRequest request
+      , [FromServices] ICategoryHandler handler) =>  await handler.CreateAsync(request))
     .WithName("Category: Create")
     .WithSummary("Cria uma nova categoria")
-    .Produces<Response<Category>>();
+    .Produces<Response<Category?>>();
 
 app.MapPut
-    ("/v1/transactions"
-    , ( [FromBody] UpdateCategoryRequest request
-      , [FromServices] ICategoryHandler handler) => handler.UpdateAsync(request))
+    ("/v1/transaction"
+    , async ( [FromBody] UpdateCategoryRequest request
+      , [FromServices] ICategoryHandler handler) => await handler.UpdateAsync(request))
     .WithName("Category: Update")
     .WithSummary("Atualiza uma categoria")
-    .Produces<Response<Category>>();
+    .Produces<Response<Category?>>();
 
 app.MapDelete
     ("/v1/transactions"
-    , ( [FromBody] DeleteCategoryRequest request
-      , [FromServices] ICategoryHandler handler) => handler.DeleteAsync(request))
+    , async ( [FromBody] DeleteCategoryRequest request
+      , [FromServices] ICategoryHandler handler) => await handler.DeleteAsync(request))
     .WithName("Category: Delete")
     .WithSummary("Deleta uma categoria")
-    .Produces<Response<Category>>();
+    .Produces<Response<Category?>>();
 
 app.MapGet
-    ("/v1/transactions/"
-    , ( [FromBody] GetCategoryByIdRequest request
-      , [FromServices] ICategoryHandler handler) => handler.GetByIdAsync(request))
+    ("/v1/transactions/{id:long}:{userId}"
+    , async ( [FromRoute] long id
+            , [FromRoute] string userId
+            , [FromServices] ICategoryHandler handler) =>
+    {
+        var request = new GetCategoryByIdRequest(id, userId);
+        return await handler.GetByIdAsync(request);
+    })
     .WithName("Category: GetById")
     .WithSummary("Busca uma categoria por id")
-    .Produces<Response<Category>>();
+    .Produces<Response<Category?>>();
+
+app.MapGet
+    ("/v1/transactions"
+    , async (   [FromServices] ICategoryHandler handler) =>
+    {
+        var request = new GetAllCategoriesRequest()
+        {
+            UserId = "carlos@teste.com",
+        };
+        return await handler.GetAllAsync(request);
+    }).WithName("Category: GetAll")
+    .WithSummary("Busca todas as categorias referentes ao um usuário")
+    .Produces<PagedResponse<List<Category>>>();
     
 
 app.Run();
