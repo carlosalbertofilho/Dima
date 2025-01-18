@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // Add CategoryHandler
 builder.Services.AddScoped<ICategoryHandler, CategoryHandler>();
+builder.Services.AddScoped<ITransactionHandler, TransactionHandler>();
 
 var app = builder.Build();
 
