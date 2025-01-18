@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dima.Api.Endpoint.Categories;
 
-public class CreateCategoryEndpoint : IEndPoint
+public abstract class CreateCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
         => app.MapPost("/", HandleAsync)

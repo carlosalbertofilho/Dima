@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dima.Api.Endpoint.Categories;
 
-public class DeleteCategoryEndpoint : IEndPoint
+public abstract class DeleteCategoryEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
     => app.MapDelete("/", HandleAsync)
