@@ -12,6 +12,7 @@ public class CreateTransactionRequest : Request
     public ETransactionType Type { get; set; } = ETransactionType.Withdraw;
     
     [Required(ErrorMessage = "Amount is required!")]
+    [Range(0, double.MaxValue, ErrorMessage = "Amount is not valid!")]
     public decimal Amount { get; set; }
     
     [Required(ErrorMessage = "Category is required!")]

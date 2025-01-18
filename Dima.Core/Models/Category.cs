@@ -1,4 +1,5 @@
 using Dima.Core.Requests.Categories;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Dima.Core.Models;
 
