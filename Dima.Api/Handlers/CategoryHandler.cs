@@ -17,11 +17,11 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         
             await context.Categories.AddAsync(category);
             await context.SaveChangesAsync();
-            return new CreatedResponse<Category?>(category,  "Category created");
+            return new Response<Category?>(category, 201, "Category created");
         }
-        catch
+        catch (Exception e)
         {
-            return new InternalServerErrorResponse<Category?>("Category not created");
+            return new Response<Category?>(null, 500, e.Message);
         }
     }
 
@@ -30,16 +30,17 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         try
         {
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
-            if (category is null) return new NotFoundResponse<Category?>("Category not found");
+            if (category is null) 
+                return new Response<Category?>(null, 404, "Category not found");
         
             category.Update(request);
             await context.SaveChangesAsync();
         
             return new Response<Category?>(category);
         }
-        catch 
+        catch (Exception e)
         {
-            return new InternalServerErrorResponse<Category?>("Category not updated");
+            return new Response<Category?>(null, 500, e.Message);
         }
     }
 
@@ -48,16 +49,17 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
         try
         {
             var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
-            if (category is null) return new NotFoundResponse<Category?>("Category not found");
+            if (category is null) 
+                return new Response<Category?>(null, 404, "Category not found");
         
             context.Categories.Remove(category);
             await context.SaveChangesAsync();
         
-            return new NoContentResponse<Category?>("Category deleted", category);
+            return new Response<Category?>(category, Message: "Category deleted");
         }
-        catch
+        catch (Exception e)
         {
-            return new InternalServerErrorResponse<Category?>("Category not deleted");
+            return new Response<Category?>(null, 500, e.Message);
         }
     }
 
@@ -70,12 +72,12 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
                 .FirstOrDefaultAsync(
                     x => x.Id == request.Id && x.UserId == request.UserId);
             return category is null
-                ? new NotFoundResponse<Category?>("Category not found")
+                ? new Response<Category?>(null, 404, "Category not found")
                 : new Response<Category?>(category, Message: "Category found");
         }
-        catch
+        catch (Exception e)
         {
-            return new InternalServerErrorResponse<Category?>("Error on get category by id");
+            return new Response<Category?>(null, 500, e.Message);
         }
     }
 

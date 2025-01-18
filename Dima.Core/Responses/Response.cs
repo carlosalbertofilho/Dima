@@ -12,14 +12,3 @@ namespace Dima.Core.Responses;
 
     public Response() : this (default, 200) {}
 }
-
-public record CreatedResponse<T>(T? Data, string? message = null) 
-    : Response<T>(Data, Configuration.DefaultStatusCodeCreated, message);
-
-public record NoContentResponse<T>(string message, T? Data = default)
-    : Response<T>(Data, Configuration.DefaultStatusNoContent, message);
-
-public record InternalServerErrorResponse<T>(string message, T? Data = default)
-    : Response<T>(Data, Configuration.DefaultStatusCodeError, message);
-public record NotFoundResponse<T>(string message)
-: Response<T>(default, Configuration.DefaultStatusCodeNotFound, message);
