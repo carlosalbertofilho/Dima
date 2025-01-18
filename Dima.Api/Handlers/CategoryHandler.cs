@@ -29,14 +29,15 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
+            var category = await QueryCategoriesByUserId(request.UserId)
+                .FirstOrDefaultAsync(x => x!.Id == request.Id);
             if (category is null) 
                 return new Response<Category?>(null, 404, "Category not found");
         
             category.Update(request);
             await context.SaveChangesAsync();
         
-            return new Response<Category?>(category);
+            return new Response<Category?>(category, Message: "Category updated");
         }
         catch (Exception e)
         {
@@ -48,9 +49,10 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context.Categories.FirstOrDefaultAsync(x => x.Id == request.Id);
-            if (category is null) 
-                return new Response<Category?>(null, 404, "Category not found");
+            var category = await QueryCategoriesByUserId(request.UserId)
+                    .FirstOrDefaultAsync(x => x!.Id == request.Id);
+            if (category is null) return new Response<Category?>
+                    (null, 404, "Category not found");
         
             context.Categories.Remove(category);
             await context.SaveChangesAsync();
@@ -67,10 +69,8 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var category = await context
-                .Categories.AsNoTracking()
-                .FirstOrDefaultAsync(
-                    x => x.Id == request.Id && x.UserId == request.UserId);
+            var category = await QueryCategoriesByUserId(request.UserId)
+                .FirstOrDefaultAsync(c => c!.Id == request.Id);
             return category is null
                 ? new Response<Category?>(null, 404, "Category not found")
                 : new Response<Category?>(category, Message: "Category found");
@@ -85,23 +85,25 @@ public class CategoryHandler(AppDbContext context) : ICategoryHandler
     {
         try
         {
-            var query =  context.Categories
-                .AsNoTracking().Where(x => x.UserId == request.UserId)
-                .OrderBy(c => c.Title);
             
-            var categoriesCount = await query.CountAsync();
-            var categories = await query
+            var categoriesCount = await QueryCategoriesByUserId(request.UserId).CountAsync();
+            var categories = await QueryCategoriesByUserId(request.UserId)
                 .Skip(request.PageSize * (request.PageNumber - 1))
                 .Take(request.PageSize)
                 .ToListAsync();
             
-            return new PagedResponse<System.Collections.Generic.List<Category>>
-                (categoriesCount, request.PageSize, request.PageNumber, categories);
+            return new PagedResponse<List<Category>>
+                (categoriesCount, request.PageSize, request.PageNumber, categories!);
         }
         catch (Exception e)
         {
-            return new PagedResponse<System.Collections.Generic.List<Category>>
+            return new PagedResponse<List<Category>>
                 (0,Data: [], Code: 500, Message: e.Message);
         }
     }
+    
+    private IQueryable<Category?> QueryCategoriesByUserId(string userId)
+        => context.Categories
+            .Where(c => c.UserId == userId)
+            .OrderBy(c => c.Title);
 }

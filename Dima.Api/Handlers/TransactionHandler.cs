@@ -28,7 +28,7 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         {
             return new Response<Transaction?>(null, 404, ex.Message);
         }
-        catch (Exception ex)
+        catch
         {
             return new Response<Transaction?>(null, 500, "Transaction not created");
         }
@@ -41,10 +41,10 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         {
             var category = await GetCategoryByIdAsync(request.CategoryId);
             var transaction = await QueryTransactionsByUserId(request.UserId)
-                .FirstOrDefaultAsync(t => t.Id == request.Id)
-                              ?? throw new ArgumentException("Transactions not found");;
-            
-            transaction!.Update(request, category);
+                .FirstOrDefaultAsync(t => t!.Id == request.Id)
+                              ?? throw new ArgumentException("Transactions not found");
+
+            transaction.Update(request, category);
             
             await context.Transactions.AddAsync(transaction);
             await context.SaveChangesAsync();
@@ -55,7 +55,7 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         {
             return new Response<Transaction?>(null, 404, ex.Message);
         }
-        catch (Exception ex)
+        catch
         {
             return new Response<Transaction?>(null, 500, "Transaction not created");
         }
@@ -66,8 +66,8 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         try
         {
             var transaction = await QueryTransactionsByUserId(request.UserId)
-                                  .FirstOrDefaultAsync(t => t.Id == request.Id)
-                              ?? throw new ArgumentException("Transactions not found");;
+                                  .FirstOrDefaultAsync(t => t!.Id == request.Id)
+                              ?? throw new ArgumentException("Transactions not found");
             
             context.Transactions.Remove(transaction);
             await context.SaveChangesAsync();
@@ -78,7 +78,7 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         {
             return new Response<Transaction?>(null, 404, ex.Message);
         }
-        catch (Exception ex)
+        catch
         {
             return new Response<Transaction?>(null, 500, "Transaction not created");
         }
@@ -89,8 +89,8 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         try
         {
             var transaction = await QueryTransactionsByUserId(request.UserId)
-                                  .FirstOrDefaultAsync(t => t.Id == request.Id)
-                              ?? throw new ArgumentException("Transactions not found");;
+                                  .FirstOrDefaultAsync(t => t!.Id == request.Id)
+                              ?? throw new ArgumentException("Transactions not found");
             
             return new Response<Transaction?>(transaction, 204, "Transaction found!");
         }
@@ -119,7 +119,7 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         try
         {
             var query = QueryTransactionsByUserId(request.UserId)
-                .Where(t => t.PaidOrReceivedAt >= request.StartDate && t.PaidOrReceivedAt <= request.EndDate);
+                .Where(t => t!.PaidOrReceivedAt >= request.StartDate && t.PaidOrReceivedAt <= request.EndDate);
             
             var transactionsCount = await query.CountAsync();
             var transactions = await query
@@ -127,9 +127,7 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
                 .Take(request.PageSize)
                 .ToListAsync();
             
-            return new PagedResponse<List<Transaction>?>(transactionsCount, request.PageSize, request.PageNumber, transactions);
-
-
+            return new PagedResponse<List<Transaction>?>(transactionsCount, request.PageSize, request.PageNumber, transactions!);
         }
         catch
         {
