@@ -1,4 +1,5 @@
 using Dima.Api.Data;
+using Dima.Core.Common.Extensions;
 using Dima.Core.Enums;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -108,8 +109,8 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
     {
         try
         {
-            request.StartDate ??= new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            request.EndDate ??= new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month));
+            request.StartDate ??= DateTime.Now.GetFirstDayOfMonth();
+            request.EndDate ??= DateTime.Now.GetLastDayOfMonth();
         }
         catch 
         {
@@ -119,7 +120,8 @@ public class TransactionHandler(AppDbContext context) : ITransactionHandler
         try
         {
             var query = QueryTransactionsByUserId(request.UserId)
-                .Where(t => t!.PaidOrReceivedAt >= request.StartDate && t.PaidOrReceivedAt <= request.EndDate);
+                .Where(t => t!.PaidOrReceivedAt >= request.StartDate 
+                                    && t.PaidOrReceivedAt <= request.EndDate);
             
             var transactionsCount = await query.CountAsync();
             var transactions = await query
