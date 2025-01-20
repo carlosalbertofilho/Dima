@@ -9,16 +9,14 @@ namespace Dima.Api.Data;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options)
     : IdentityDbContext
-    <
-        ApplicationUser,
-        IdentityRole<long>,
-        long,
-        IdentityUserClaim<long>,
-        IdentityUserRole<long>,
-        IdentityUserLogin<long>,
-        IdentityRoleClaim<long>,
-        IdentityUserToken<long>
-    >(options)
+    <  ApplicationUser,
+       IdentityRole<long>,
+       long,
+       IdentityUserClaim<long>,
+       IdentityUserRole<long>,
+       IdentityUserLogin<long>,
+       IdentityRoleClaim<long>,
+       IdentityUserToken<long>>(options)
 {
     public DbSet<Category> Categories { get; set; } = null!;
     public DbSet<Transaction> Transactions { get; set; } = null!;

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Dima.Api.Common;
 using Dima.Core.Handlers;
 using Dima.Core.Models;
@@ -19,12 +20,13 @@ public abstract class GetTransactionByIdEndpoint : IEndPoint
 
     private static async Task<IResult> HandleAsync
     ( [FromRoute] long id
+    , [FromServices] ClaimsPrincipal user    
     , [FromServices] ITransactionHandler handler)
     {
         var request = new GetTransactionByIdRequest()
         {
             Id = id,
-            UserId = "carlos@teste.com"
+            UserId = user.Identity?.Name ?? string.Empty
         };    
         var result = await handler.GetByIdAsync(request);
         return result.IsSuccess
