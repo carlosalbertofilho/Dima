@@ -1,10 +1,46 @@
 @page "/login"
+@using System.ComponentModel.DataAnnotations
 @layout HeadlessLayout
 
 <PageTitle>Dima - Entrar</PageTitle>
 
 <MudGrid Justify="Justify.Center">
     <MudItem sm="12" md="8" lg="6">
-        <MudPaper></MudPaper>
+        <MudPaper Class="mud-with-full pa-8">
+            <div class="d-flex justify-center pt-8 pb-8">
+                <img src="imgs/dima.png" alt="Dima - Controle Financeiro" class="200">
+            </div>
+        </MudPaper>
+        <MudForm @ref="_mudForm">
+            <MudTextField 
+                T="string" 
+                Label="E-mail" 
+                Required="true" 
+                InputType="InputType.Email"
+                RequiredError="Informe o e-mail" 
+                Validation="@(new EmailAddressAttribute{ ErrorMessage = "E-mail inválído!"})"/>
+            <MudTextField
+                T="string"
+                Label="Senha"
+                Required="true"
+                InputType="InputType.Password"
+                RequiredError="Informe inválida!"
+                Validation="@(
+                            new RegularExpressionAttribute(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$" )
+                                { ErrorMessage = "A senha deve conter pelo menos 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula e um número." }
+                            )" />
+            <div class="d-flex mt-8">
+                <MudButton
+                    Variant="Variant.Filled"
+                    Color="Color.Primary">ENTRA</MudButton>
+                <MudSpacer/>
+                <MudButton Href="/registra">REGISTRA</MudButton>
+            </div>
+        </MudForm>
     </MudItem>
 </MudGrid>
+
+@code 
+{
+    MudForm? _mudForm;
+}
