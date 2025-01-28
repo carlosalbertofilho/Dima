@@ -5,7 +5,7 @@ namespace Dima.Web;
 
 public static class Configuration
 {
-    public static MudTheme Theme = new()
+    public static readonly MudTheme Theme = new()
     {
         Typography = new Typography
         {
