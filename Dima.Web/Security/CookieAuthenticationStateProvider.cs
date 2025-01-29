@@ -26,8 +26,8 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
         var user = new ClaimsPrincipal(new ClaimsIdentity());
         
         var userinfo = await GetUser();
-        if (userinfo is not null) return new AuthenticationState(user);
-        var claims = await GetClaims(userinfo!);
+        if (userinfo is null) return new AuthenticationState(user);
+        var claims = await GetClaims(userinfo);
         
         var id = new ClaimsIdentity(claims, nameof(CookieAuthenticationStateProvider));
         user = new ClaimsPrincipal(id);
