@@ -9,7 +9,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
     : AuthenticationStateProvider, ICookieAuthenticationStateProvider
 {
     private readonly HttpClient _client = clientFactory.CreateClient(Configuration.HttpClientName);
-    private bool _isAuthenticated = false;
+    private bool _isAuthenticated;
 
     public async Task<bool> CheckAuthenticationAsync()
     {
@@ -77,7 +77,7 @@ public class CookieAuthenticationStateProvider(IHttpClientFactory clientFactory)
                 where !string.IsNullOrWhiteSpace(role.Value) && !string.IsNullOrWhiteSpace(role.Type)
                 select new Claim(role.Type!, role.Value!, role.ValueType, role.Issuer, role.OriginalIssuer));
         }
-        catch (Exception e)
+        catch
         {
             return roleClaims;
         }
