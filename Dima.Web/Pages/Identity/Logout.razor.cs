@@ -27,8 +27,8 @@ public partial class LogoutPage : ComponentBase
             StateProvider.NotifyAuthenticationStateChanged();
             
             // Adiciona um atraso de 3 segundos antes de redirecionar
-            // tbfgvawait Task.Delay(3000);
-            NavigationManager.NavigateTo("/entra");
+            await Task.Delay(3000);
+            NavigationManager.NavigateTo("/entrar");
         }
         await base.OnInitializedAsync();
     }

@@ -38,7 +38,7 @@ public partial class LoginPage : ComponentBase
         }
         catch
         {
-            Console.WriteLine("Usuário não está logado");
+            Console.WriteLine("Unauthorized users");
             //throw;
         }
         return Task.CompletedTask;
