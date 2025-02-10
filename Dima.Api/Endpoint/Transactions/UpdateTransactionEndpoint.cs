@@ -19,9 +19,9 @@ public abstract class UpdateTransactionEndpoint : IEndPoint
               .Produces<Response<Transaction?>>();
 
     private static async Task<IResult> HandleAsync
-    ( [FromBody] UpdateTransactionRequest request
+    ( ClaimsPrincipal user 
     , [FromServices] ITransactionHandler handler
-    , [FromServices] ClaimsPrincipal user)
+    , [FromBody] UpdateTransactionRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.UpdateAsync(request);

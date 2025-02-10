@@ -19,9 +19,9 @@ public abstract class DeleteTransactionEndpoint : IEndPoint
               .Produces<Response<Transaction?>>();
 
     private static async Task<IResult> HandleAsync
-    ( [FromBody] DeleteTransactionRequest request
-    , [FromServices] ClaimsPrincipal user    
-    , [FromServices] ITransactionHandler handler)
+    ( ClaimsPrincipal user    
+    , [FromServices] ITransactionHandler handler
+    , [FromBody] DeleteTransactionRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.DeleteAsync(request);

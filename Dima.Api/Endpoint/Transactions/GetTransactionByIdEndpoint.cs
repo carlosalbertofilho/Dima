@@ -19,8 +19,8 @@ public abstract class GetTransactionByIdEndpoint : IEndPoint
               .Produces<Response<Transaction?>>();
 
     private static async Task<IResult> HandleAsync
-    ( [FromRoute] long id
-    , [FromServices] ClaimsPrincipal user    
+    ( ClaimsPrincipal user  
+    , [FromRoute] long id
     , [FromServices] ITransactionHandler handler)
     {
         var request = new GetTransactionByIdRequest()

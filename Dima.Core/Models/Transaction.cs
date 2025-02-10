@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Dima.Core.Enums;
 using Dima.Core.Requests.Transactions;
 // ReSharper disable MemberCanBePrivate.Global
@@ -21,7 +22,7 @@ public class Transaction
     public DateTime? PaidOrReceivedAt { get; set; }
     
     
-    private Transaction()
+    [JsonConstructor] private Transaction()
     {
     }
 

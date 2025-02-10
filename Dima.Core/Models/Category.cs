@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Dima.Core.Requests.Categories;
 // ReSharper disable MemberCanBePrivate.Global
 
@@ -10,7 +11,7 @@ public class Category
     public string UserId { get; set; } = string.Empty;
     public string? Description { get; set; } = null;
 
-    private Category()
+    [JsonConstructor] private Category()
     {
         
     }

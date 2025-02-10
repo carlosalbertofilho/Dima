@@ -19,8 +19,8 @@ public abstract class GetTransactionsByPeriodEndpoint : IEndPoint
               .Produces<Response<List<Transaction>>>();
 
     private static async Task<IResult> HandleAsync
-        ( [FromServices] ITransactionHandler handler
-        , [FromServices] ClaimsPrincipal user    
+        ( ClaimsPrincipal user
+        , [FromServices] ITransactionHandler handler    
         , [FromQuery] DateTime? startDate = null
         , [FromQuery] DateTime? endDate = null
         , [FromQuery] int pageNumber = Configuration.DefaultPageNumber
