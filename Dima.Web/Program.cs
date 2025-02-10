@@ -22,6 +22,7 @@ builder.Services.AddScoped(x =>
     (ICookieAuthenticationStateProvider)x.GetRequiredService<AuthenticationStateProvider>());
 
 builder.Services.AddMudServices();
+
 builder.Services
     .AddHttpClient(Configuration.HttpClientName,
         options => { options.BaseAddress = new Uri(Configuration.BackendUrl); })
