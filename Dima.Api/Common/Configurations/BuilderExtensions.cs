@@ -77,6 +77,7 @@ public static class BuilderExtensions
         builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
         // Add Transactions Services 
         builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
+        
     }
     
 }

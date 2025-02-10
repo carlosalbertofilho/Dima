@@ -19,8 +19,8 @@ public abstract class CreateCategoryEndpoint : IEndPoint
             .Produces<Response<Category?>>();
 
     private static async Task<IResult> HandleAsync
-    ( [FromServices] ICategoryHandler handler
-    , [FromServices] ClaimsPrincipal user    
+    ( ClaimsPrincipal user
+    , [FromServices] ICategoryHandler handler    
     , [FromBody] CreateCategoryRequest request)
     {
         request.UserId = user.Identity?.Name ?? string.Empty;

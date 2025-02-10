@@ -19,8 +19,8 @@ public abstract class GetAllCategoriesEndpoint : IEndPoint
           .Produces<Response<List<Category>>>();
 
     private static async Task<IResult> HandleAsync
-    ( [FromServices] ICategoryHandler handler
-    , [FromServices] ClaimsPrincipal user    
+    ( ClaimsPrincipal user
+    , [FromServices] ICategoryHandler handler    
     , [FromQuery] int pageNumber = Configuration.DefaultPageNumber
     , [FromQuery] int pageSize = Configuration.DefaultPageSize)
     {

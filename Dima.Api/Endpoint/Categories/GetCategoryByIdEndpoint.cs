@@ -19,8 +19,8 @@ public abstract class GetCategoryByIdEndpoint : IEndPoint
           .Produces<Response<Category?>>();
 
     private static async Task<IResult> HandleAsync
-        ( [FromServices] ICategoryHandler handler
-        , [FromServices] ClaimsPrincipal user    
+        ( ClaimsPrincipal user 
+        , [FromServices] ICategoryHandler handler 
         , [FromRoute] long id)
     {
         var request = new GetCategoryByIdRequest
