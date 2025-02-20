@@ -19,24 +19,18 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
 
     public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
     {
-        try
-        {
-            var result = await _client.PutAsJsonAsync($"{BaseUrl}/{request.Id}", request);
-            return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-                   ?? new Response<Category?>(null, 400, "Erro ao atualizar categoria");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var result = await _client.PutAsJsonAsync($"{BaseUrl}/{request.Id}", request);
+        return result.IsSuccessStatusCode 
+            ? new Response<Category?>(null, 204, "Categoria atualizada com sucesso")
+            : new Response<Category?>(null, 400, "Erro ao atualizar categoria");
     }
 
     public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)
     {
         var result = await _client.DeleteAsync($"{BaseUrl}/{request.Id}");
-        return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-            ?? new Response<Category?>(null, 400, "Erro ao deletar categoria");
+        return result.IsSuccessStatusCode 
+            ? new Response<Category?>(null, 204, "Categoria deletada com sucesso")
+            : new Response<Category?>(null, 400, "Erro ao deletar categoria");
     }
 
     public async Task<Response<Category?>> GetByIdAsync(GetCategoryByIdRequest request) 
