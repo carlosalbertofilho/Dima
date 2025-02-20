@@ -19,9 +19,17 @@ public class CategoryHandler(IHttpClientFactory httpClientFactory) : ICategoryHa
 
     public async Task<Response<Category?>> UpdateAsync(UpdateCategoryRequest request)
     {
-        var result = await _client.PutAsJsonAsync($"{BaseUrl}/{request.Id}", request);
-        return await result.Content.ReadFromJsonAsync<Response<Category?>>()
-            ?? new Response<Category?>(null, 400, "Erro ao atualizar categoria");
+        try
+        {
+            var result = await _client.PutAsJsonAsync($"{BaseUrl}/{request.Id}", request);
+            return await result.Content.ReadFromJsonAsync<Response<Category?>>()
+                   ?? new Response<Category?>(null, 400, "Erro ao atualizar categoria");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     public async Task<Response<Category?>> DeleteAsync(DeleteCategoryRequest request)

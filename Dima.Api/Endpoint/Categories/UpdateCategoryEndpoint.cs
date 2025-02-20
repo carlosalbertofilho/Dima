@@ -21,13 +21,11 @@ public abstract class UpdateCategoryEndpoint : IEndPoint
     private static async Task<IResult> HandleAsync
     ( ClaimsPrincipal user 
     , [FromRoute] long id
-    , [FromServices]  ICategoryHandler handler )
+    , [FromServices]  ICategoryHandler handler 
+    , [FromBody] UpdateCategoryRequest request)
     {
-        var request = new UpdateCategoryRequest
-        {
-            Id = id,
-            UserId = user.Identity?.Name ?? string.Empty,
-        };
+        request.Id = id;
+        request.UserId = user.Identity?.Name ?? string.Empty;
         var result = await handler.UpdateAsync(request);
         return result.IsSuccess
             ? TypedResults.NoContent()
