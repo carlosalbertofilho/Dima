@@ -24,7 +24,10 @@ public abstract class GetCategoryByIdEndpoint : IEndPoint
         , [FromRoute] long id)
     {
         var request = new GetCategoryByIdRequest
-            (id, user.Identity?.Name ?? string.Empty);
+        {
+            Id = id,
+            UserId = user.Identity?.Name ?? string.Empty
+        };
         var result = await handler.GetByIdAsync(request);
         return result.IsSuccess
             ? TypedResults.Ok(result)

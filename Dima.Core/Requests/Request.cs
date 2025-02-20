@@ -1,6 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace Dima.Core.Requests;
 
 public abstract class Request
 {
-    public string UserId { get; set; } = string.Empty;
+    [JsonIgnore] public string UserId { get; set; } = string.Empty;
 }

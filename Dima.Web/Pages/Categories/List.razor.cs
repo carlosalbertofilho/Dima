@@ -19,9 +19,9 @@ public partial class ListCategoryPage : ComponentBase
 
     #region Services
 
-    [Inject] ISnackbar Snackbar { get; set; } = null!;
-    [Inject] ICategoryHandler Handler { get; set; } = null!;
-    [Inject] IDialogService DialogService { get; set; } = null!;
+    [Inject] private ISnackbar Snackbar { get; set; } = null!;
+    [Inject] private ICategoryHandler Handler { get; set; } = null!;
+    [Inject] private IDialogService DialogService { get; set; } = null!;
 
     #endregion
 
@@ -76,7 +76,10 @@ public partial class ListCategoryPage : ComponentBase
     {
         try
         {
-            var request = new DeleteCategoryRequest(id);
+            var request = new DeleteCategoryRequest
+            {
+                Id = id
+            };
             await Handler.DeleteAsync(request);
             Categories.RemoveAll(x => x.Id == id);
             Snackbar.Add($"Categoria {title} excluída com sucesso!", Severity.Success);

@@ -35,17 +35,21 @@
         <PropertyColumn Property="c => c.Id" Title="#" sortable="true" />
         <PropertyColumn Property="c => c.Title" Title="Categoria" sortable="true" />
         <TemplateColumn>
-            <MudStack Row>
-                <MudIconButton
-                    Icon="@Icons.Material.Filled.Edit"
-                    Color="Color.Primary"
-                    arial-label="Editar"/>
-                
-                <MudIconButton
-                    Icon="@Icons.Material.Filled.Delete"
-                    Color="Color.Error"
-                    arial-label="Excluir" />
-            </MudStack>
+            <CellTemplate>
+                <MudStack Row Class="d-flex justify-end">
+                    <MudIconButton
+                        Icon="@Icons.Material.Filled.Edit"
+                        Color="Color.Primary"
+                        Href="@($"/categorias/editar/{context.Item!.Id}")"
+                        arial-label="Editar"/>
+
+                    <MudIconButton
+                        Icon="@Icons.Material.Filled.Delete"
+                        Color="Color.Error"
+                        arial-label="Excluir" 
+                        OnClick="() => OnDeleteButtonClickedAsync(context.Item!.Id, context.Item.Title)"/>
+                </MudStack>
+            </CellTemplate>
         </TemplateColumn>
     </Columns>
 </MudDataGrid>

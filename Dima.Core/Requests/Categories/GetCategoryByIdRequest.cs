@@ -2,15 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dima.Core.Requests.Categories;
 
-public class GetCategoryByIdRequest(long id) : Request
+public class GetCategoryByIdRequest : Request
 {
     [Required]
     [Range(1, long.MaxValue)]
     [Display(Name = "Category Id")]
-    public long Id { get; set; } = id;
-
-    public GetCategoryByIdRequest(long id, string userId) : this(id)
-    {
-        UserId = userId;
-    }
+    public long Id { get; set; } = 0;
 }
