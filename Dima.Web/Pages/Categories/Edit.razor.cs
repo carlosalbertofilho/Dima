@@ -10,7 +10,7 @@ public partial class EditCategoryPage : ComponentBase
     #region Properties
 
     protected bool IsBusy { get; set; } = false;
-    protected bool IsEditMode { get; set; } = false;
+    protected bool IsEditBusy { get; set; } = false;
     protected UpdateCategoryRequest InputModel { get; set; } = null!;
 
     #endregion
@@ -76,7 +76,7 @@ public partial class EditCategoryPage : ComponentBase
 
     protected async Task OnValidSubmitAsync()
     {
-        IsEditMode = true;
+        IsEditBusy = true;
         try
         {
             var result = await Handler.UpdateAsync(InputModel);
@@ -91,7 +91,7 @@ public partial class EditCategoryPage : ComponentBase
         }
         finally
         {
-            IsEditMode = false;
+            IsEditBusy = false;
         }
     }
 

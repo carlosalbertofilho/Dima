@@ -29,10 +29,18 @@ else
                           @bind-Value="@InputModel.Description"
                           For="@(() => InputModel.Description)"  />
             
-            <MudButton ButtonType="ButtonType.Submit"
-                       Variant="Variant.Filled"
-                       Disabled="IsEditMode"
-                       Color="Color.Primary">Salvar</MudButton>
+            <div class="d-flex gap-5 mt-4">
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Disabled="IsEditBusy"
+                           Color="Color.Primary">Salvar</MudButton>
+                <MudButton ButtonType="ButtonType.Button"
+                           Variant="Variant.Filled"
+                           Disabled="IsEditBusy"
+                           Color="Color.Error"
+                           Href="/categorias">Cancelar</MudButton>
+            </div>
+                
         </EditForm>
     </MudPaper>
 }
