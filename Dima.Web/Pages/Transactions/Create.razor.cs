@@ -11,7 +11,7 @@ public partial class CreateTransactionsPage : ComponentBase
 {
     #region Properties
 
-    protected bool IsBusy { get; set; } = false;
+    protected bool IsBusy { get; set; }
     protected CreateTransactionRequest InputModel { get; set; } = new();
     protected List<Category> Categories { get; set; } = [];
 
@@ -66,7 +66,7 @@ public partial class CreateTransactionsPage : ComponentBase
             if (result.IsSuccess)
             {
                 Snackbar.Add(result.Message!, Severity.Success);
-                NavigationManager.NavigateTo("/transacoes");
+                NavigationManager.NavigateTo("/lancamentos/historico");
             }
         }
         catch (Exception ex)

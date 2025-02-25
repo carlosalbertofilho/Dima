@@ -7,13 +7,24 @@ namespace Dima.Core.Models;
 
 public class Transaction
 {
+    private decimal _amount;
+
     public long Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;
     
     public ETransactionType Type { get; set; } = ETransactionType.Withdraw;
-    
-    public decimal Amount { get; set; }
+
+    public decimal Amount
+    {
+        get => _amount;
+        set => _amount = Type switch
+        {
+            ETransactionType.Withdraw when value >= 0 => -value, // Caso Withdraw e valor positivo
+            _ => value // Qualquer outro caso
+        };
+
+    }
     
     public long? CategoryId { get; set; }
     public Category? Category { get; set; }
