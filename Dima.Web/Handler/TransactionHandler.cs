@@ -46,7 +46,7 @@ public class TransactionHandler(IHttpClientFactory httpClientFactory) : ITransac
             ? request.EndDate.Value.ToString(format)
             : DateTime.Now.GetLastDayOfMonth().ToString(format);
 
-        var url = $"{BaseUrl}?startDate={startDate}&endDate={endDate}&pageSize={request.PageSize}&pageNumber={request.PageNumber}";
+        var url = $"{BaseUrl}?startDate={startDate}&endDate={endDate}&pageNumber={request.PageNumber}&pageSize={request.PageSize}";
 
         return await _client.GetFromJsonAsync<PagedResponse<List<Transaction>?>>(url)
                ??

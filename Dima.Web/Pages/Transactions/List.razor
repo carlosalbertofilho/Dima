@@ -1,0 +1,74 @@
+@page "/lancamentos/historico"
+@using Dima.Core.Enums
+@inherits ListTransactionsPage
+
+<MudText Typo="Typo.h3">Lançamentos</MudText>
+
+<MudDataGrid
+    Items="@Transactions"
+    Filterable="true"
+    QuickFilter="Filter"
+    Hideable="true"
+    ColumnResizeMode="ResizeMode.Column">
+    
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Lançamentos</MudText>
+        <MudSpacer/>
+        <MudTextField
+            @bind-Value="SearchTerm"
+            Placeholder="Pesquisar.. "
+            AdornmentIcon="@Icons.Material.Filled.Search"
+            Immediate="true"
+            IconSize="Size.Medium"
+            Class="mt-2"/>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.Title" Title="Lançamentos"/>
+        <TemplateColumn Title="Tipo" Filterable="true">
+            <CellTemplate>
+                @if (context.Item.Type == ETransactionType.Deposit)
+                {
+                    <MudChip
+                        Color="Color.Success"
+                        Size="Size.Small"
+                        Variant="Variant.Filled">
+                        entrada
+                    </MudChip>
+                }
+                else
+                {
+                    <MudChip
+                        Color="Color.Error"
+                        Size="Size.Small"
+                        Variant="Variant.Filled">
+                        saida
+                    </MudChip>
+                }
+            </CellTemplate>
+        </TemplateColumn>
+        <PropertyColumn
+            Property="t => t.Amount"
+            Format="C"
+            Title="Valor"
+            Sortable="true">
+            <FooterTemplate>
+                @context.Items.Sum(t => t.Amount).ToString("C")
+            </FooterTemplate>
+        </PropertyColumn>
+        <TemplateColumn>
+            <CellTemplate>
+                <MudStack Row Class="d-flex justify-end">
+                    <MudIconButton
+                        Icon="@Icons.Material.Filled.Edit"
+                        Color="Color.Primary"
+                        Href="@($"/lancamentos/editar/{context.Item!.Id}")"
+                        arial-label="Editar"/>
+                    <MudIconButton 
+                        Icon="@Icons.Material.Filled.Delete"
+                        Color="Color.Error" 
+                        aria-label="Excluir" />
+                </MudStack>
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
