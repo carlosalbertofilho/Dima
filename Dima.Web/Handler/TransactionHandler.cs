@@ -21,15 +21,17 @@ public class TransactionHandler(IHttpClientFactory httpClientFactory) : ITransac
     public async Task<Response<Transaction?>> UpdateAsync(UpdateTransactionRequest request)
     {
         var result = await _client.PutAsJsonAsync($"{BaseUrl}/{request.Id}", request);
-        return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
-               ?? new Response<Transaction?>(null, 400, "Erro ao atualizar transação");
+        return result.IsSuccessStatusCode 
+            ? new Response<Transaction?>(null, 204, "Lançamento atualizado com sucesso")
+            : new Response<Transaction?>(null, 400, "Erro ao atualizar lançamento");
     }
 
     public async Task<Response<Transaction?>> DeleteAsync(DeleteTransactionRequest request)
     {
         var result = await _client.DeleteAsync($"{BaseUrl}/{request.Id}");
-        return await result.Content.ReadFromJsonAsync<Response<Transaction?>>()
-               ?? new Response<Transaction?>(null, 400, "Erro ao deletar transação");
+        return result.IsSuccessStatusCode 
+            ? new Response<Transaction?>(null, 204, "Lançamento deletado com sucesso")
+            : new Response<Transaction?>(null, 400, "Erro ao deletar lançamento");
     }
 
     public async Task<Response<Transaction?>> GetByIdAsync(GetTransactionByIdRequest request)

@@ -3,13 +3,22 @@
 @inherits ListTransactionsPage
 
 <MudText Typo="Typo.h3">Lançamentos</MudText>
-
+<div class="d-flex justify-end">
+    <MudButton
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        StartIcon="@Icons.Material.TwoTone.Add"
+        Href="/lancamentos/novo">
+        Novo Lançamento
+    </MudButton>
+</div>
 <MudDataGrid
     Items="@Transactions"
     Filterable="true"
     QuickFilter="Filter"
     Hideable="true"
-    ColumnResizeMode="ResizeMode.Column">
+    ColumnResizeMode="ResizeMode.Column"
+    Class="mt-4">
     
     <ToolBarContent>
         <MudText Typo="Typo.h6">Lançamentos</MudText>
@@ -41,7 +50,7 @@
                         Color="Color.Error"
                         Size="Size.Small"
                         Variant="Variant.Filled">
-                        saida
+                        saída
                     </MudChip>
                 }
             </CellTemplate>
@@ -66,7 +75,8 @@
                     <MudIconButton 
                         Icon="@Icons.Material.Filled.Delete"
                         Color="Color.Error" 
-                        aria-label="Excluir" />
+                        aria-label="Excluir" 
+                        OnClick="@(() => OnDeleteButtonClick(context.Item!.Id, context.Item!.Title))"/>
                 </MudStack>
             </CellTemplate>
         </TemplateColumn>

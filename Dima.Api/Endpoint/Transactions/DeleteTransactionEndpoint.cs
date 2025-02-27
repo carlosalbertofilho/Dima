@@ -11,7 +11,7 @@ namespace Dima.Api.Endpoint.Transactions;
 public abstract class DeleteTransactionEndpoint : IEndPoint
 {
     public static void Map(IEndpointRouteBuilder app)
-        => app.MapDelete("/", HandleAsync)
+        => app.MapDelete("/{id}", HandleAsync)
               .WithName("Transactions: Delete")
               .WithSummary("Delete a transaction")
               .WithDescription("Delete a transaction")
@@ -21,9 +21,13 @@ public abstract class DeleteTransactionEndpoint : IEndPoint
     private static async Task<IResult> HandleAsync
     ( ClaimsPrincipal user    
     , [FromServices] ITransactionHandler handler
-    , [FromBody] DeleteTransactionRequest request)
+    , [FromRoute] long id)
     {
-        request.UserId = user.Identity?.Name ?? string.Empty;
+        var request = new DeleteTransactionRequest
+        {
+            Id = id,
+            UserId = user.Identity?.Name ?? string.Empty,
+        };
         var result = await handler.DeleteAsync(request);
         return result.IsSuccess
             ? TypedResults.NoContent()

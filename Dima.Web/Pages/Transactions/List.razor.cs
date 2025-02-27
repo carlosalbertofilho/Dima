@@ -31,6 +31,7 @@ public partial class ListTransactionsPage : ComponentBase
     [Inject] protected ITransactionHandler Handler { get; set; } = null!;
     [Inject] protected NavigationManager NavigationManager { get; set; } = null!;
     [Inject] protected ISnackbar Snackbar { get; set; } = null!;
+    [Inject] protected IDialogService DialogService { get; set; } = null!;
 
     #endregion
 
@@ -68,6 +69,44 @@ public partial class ListTransactionsPage : ComponentBase
     #endregion
     
     #region Methods
+
+    protected async Task OnDeleteButtonClick(long id, string title)
+    {
+        var result = await DialogService.ShowMessageBox
+        ( "ATENÇÃO"
+         , $"Deseja excluir o lançamento {title}?\n" +
+           "Esta é uma ação irreversível\n" +
+           "Deseja continuar?"
+         , yesText: "Sim"
+         , cancelText: "Cancelar");
+        if (result == true) await OnDelete(id, title);
+    }
+
+    private async Task OnDelete(long id, string title)
+    {
+        IsBusy = true;
+        try
+        {
+            var request = new DeleteTransactionRequest { Id = id };
+            var response = await Handler.DeleteAsync(request);
+            if (response.IsSuccess)
+            {
+                Snackbar.Add(response.Message!, Severity.Success);
+                Transactions.RemoveAll(x => x.Id == id);
+                StateHasChanged();
+            }
+            else
+                Snackbar.Add(response.Message!, Severity.Error);
+        }
+        catch (Exception e)
+        {
+            Snackbar.Add(e.Message, Severity.Error);
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
 
     protected Func<Transaction, bool> Filter => transactions =>
         transactions.Id.ToString().Contains(SearchTerm, StringComparison.OrdinalIgnoreCase)
