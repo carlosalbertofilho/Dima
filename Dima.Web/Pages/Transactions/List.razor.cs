@@ -10,12 +10,32 @@ namespace Dima.Web.Pages.Transactions;
 public partial class ListTransactionsPage : ComponentBase
 {
     #region Properties
-
+    
+    private int _currentYear = DateTime.Now.Year;
+    private int _currentMonth = DateTime.Now.Month;
     protected bool IsBusy { get; set; } = false;
-    protected List<Transaction> Transactions { get; set; }= [];
+    protected List<Transaction> Transactions { get; private set; }= [];
     protected string SearchTerm { get; set; } = string.Empty;
-    protected int CurrentYear { get; set; } = DateTime.Now.Year;
-    protected int CurrentMonth { get; set; } = DateTime.Now.Month;
+
+    protected int CurrentYear
+    {
+        get => _currentYear;
+        set
+        {
+            _currentYear = value;
+            GetTransactionsAsync();
+        }
+    }
+
+    protected int CurrentMonth
+    {
+        get => _currentMonth;
+        set
+        {
+            _currentMonth = value;
+            GetTransactionsAsync();
+        }
+    }
     protected int[] Years { get; set; } = 
     [
         DateTime.Now.Year,
@@ -38,6 +58,13 @@ public partial class ListTransactionsPage : ComponentBase
     #region Overrides
 
     protected override async Task OnInitializedAsync()
+        => await GetTransactionsAsync();
+
+    #endregion
+    
+    #region Methods
+
+    private async Task GetTransactionsAsync()
     {
         IsBusy = true;
         try
@@ -63,13 +90,10 @@ public partial class ListTransactionsPage : ComponentBase
         finally
         {
             IsBusy = false;
+            StateHasChanged();
         }
     }
-
-    #endregion
     
-    #region Methods
-
     protected async Task OnDeleteButtonClick(long id, string title)
     {
         var result = await DialogService.ShowMessageBox
