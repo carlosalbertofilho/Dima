@@ -11,7 +11,7 @@ public partial class CreateTransactionsPage : ComponentBase
 {
     #region Properties
 
-    protected bool IsBusy { get; set; }
+    protected bool IsBusy { get; set; } = false;
     protected CreateTransactionRequest InputModel { get; set; } = new();
     protected List<Category> Categories { get; set; } = [];
 

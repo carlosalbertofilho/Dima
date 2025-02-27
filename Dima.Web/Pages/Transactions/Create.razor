@@ -5,7 +5,7 @@
 <MudText Typo="Typo.h3">Novo Lançamento</MudText>
 
 <MudPaper Class="pa-8 mt-4">
-    <EditForm Model="@InputModel" OnInvalidSubmit="OnValidSubmitAsync" Spacing="5">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
         <DataAnnotationsValidator/>
         <MudTextField
             Label="Título"
@@ -65,7 +65,7 @@
                 Variant="Variant.Filled"
                 Color="Color.Error"
                 Disabled="IsBusy"
-                Href="/lancamentos">Cancelar</MudButton>
+                Href="/lancamentos/historico">Cancelar</MudButton>
         </div>
     </EditForm>
 </MudPaper>
