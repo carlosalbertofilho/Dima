@@ -23,7 +23,7 @@ public partial class ListTransactionsPage : ComponentBase
         set
         {
             _currentYear = value;
-            GetTransactionsAsync();
+            GetTransactionsAsync().GetAwaiter().GetResult();
         }
     }
 
@@ -33,7 +33,7 @@ public partial class ListTransactionsPage : ComponentBase
         set
         {
             _currentMonth = value;
-            GetTransactionsAsync();
+            GetTransactionsAsync().GetAwaiter().GetResult();
         }
     }
     protected int[] Years { get; set; } = 

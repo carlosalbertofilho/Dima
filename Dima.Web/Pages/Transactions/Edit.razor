@@ -1,0 +1,65 @@
+@page "/lancamentos/editar/{Id}"
+@using Dima.Core.Enums
+@inherits EditTransactionPage
+
+<MudText Typo="Typo.h3">@($"Editar Lançamento: {InputModel.Title}")</MudText>
+
+<MudPaper Class="pa-8 mt-4">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+        <DataAnnotationsValidator/>
+        
+        <MudTextField 
+            Label="Título"
+            HelperText="Campo Obrigatório"
+            @bind-Value="@InputModel.Title"
+            For="@(() => InputModel.Title)"/>
+        
+        <MudTextField 
+            Label="Quanto?"
+            T="decimal"
+            Format="C"
+            Variant="Variant.Text"
+            HelperText="Informe o valor que será paga ou recebido"
+            @bind-Value="@InputModel.Amount"
+            For="@(() => InputModel.Amount)"/>
+        
+        <MudDatePicker
+            Label="Quando?"
+            HelperText="Selecione a data de pagamento ou recebimento"
+            Editable="true"
+            @bind-Date="@InputModel.PaidOrReceiveAt"/>
+        
+        <MudSelect
+            T="ETransactionType"
+            Label="Tipo de Movimentação"
+            AnchorOrigin="Origin.BottomCenter"
+            @bind-Value="@InputModel.Type">
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Deposit">Entrada</MudSelectItem>
+            <MudSelectItem T="ETransactionType" Value="ETransactionType.Withdraw">Saída</MudSelectItem>
+        </MudSelect>
+        
+        <MudSelect
+            T="long"
+            Label="Categoria"
+            AnchorOrigin="Origin.BottomCenter"
+            @bind-Value="@InputModel.CategoryId">
+            @foreach (var category in Categories)
+            {
+                <MudSelectItem T="long" Value="@category.Id">@category.Title</MudSelectItem>
+            }
+        </MudSelect>
+        
+        <div class="d-flex gap-4 mt-4">
+            <MudButton 
+                ButtonType="ButtonType.Submit"
+                Variant="Variant.Filled"
+                Disabled="IsBusy"
+                Color="Color.Primary">Salvar</MudButton>
+            <MudButton
+                Color="Color.Error"
+                Variant="Variant.Filled"
+                Disabled="IsBusy"
+                Href="/lancamentos/historico">Cancelar</MudButton>            
+        </div>
+    </EditForm>
+</MudPaper>
