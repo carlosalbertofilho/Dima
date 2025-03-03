@@ -1,3 +1,11 @@
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.csproj.AssemblyReference.cache
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.AssemblyInfoInputs.cache
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.AssemblyInfo.cs
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.csproj.CoreCompileInputs.cache
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.MvcApplicationPartsAssemblyInfo.cs
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.MvcApplicationPartsAssemblyInfo.cache
+/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.sourcelink.json
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/appsettings.Development.json
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/appsettings.json
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/Dima.Api.staticwebassets.endpoints.json
@@ -150,14 +158,6 @@
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/Dima.Core.dll
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/bin/Debug/net9.0/Dima.Core.pdb
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.csproj.AssemblyReference.cache
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.GeneratedMSBuildEditorConfig.editorconfig
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.AssemblyInfoInputs.cache
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.AssemblyInfo.cs
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.csproj.CoreCompileInputs.cache
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.MvcApplicationPartsAssemblyInfo.cs
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.MvcApplicationPartsAssemblyInfo.cache
-/Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/Dima.Api.sourcelink.json
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/scopedcss/bundle/Dima.Api.styles.css
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/staticwebassets.build.json
 /Users/carlosfilho/RiderProjects/Dima/Dima.Api/obj/Debug/net9.0/staticwebassets.development.json
