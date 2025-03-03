@@ -1,4 +1,4 @@
-INSERT INTO [dbo].[Categorias] (Title, Description, UserId) VALUES ('Alimentação', 'Despesas com alimentos e bebidas', 'carlos@teste.com');
+INSERT INTO [dbo].[Categorias] (Title, Description, UserId) VALUES (N'Alimentação', 'Despesas com alimentos e bebidas', 'carlos@teste.com');
 INSERT INTO [dbo].[Categorias] (Title, Description, UserId) VALUES ('Saúde', 'Gastos com saúde e bem-estar', 'carlos@teste.com');
 INSERT INTO [dbo].[Categorias] (Title, Description, UserId) VALUES ('Transporte', 'Custos com transporte e veículos', 'carlos@teste.com');
 INSERT INTO [dbo].[Categorias] (Title, Description, UserId) VALUES ('Moradia', 'Despesas relacionadas à casa', 'carlos@teste.com');
@@ -23,7 +23,7 @@ INSERT INTO [dbo].[Transacoes] (Title, CreatedAt, PaidOrReceivedAt, Type, Amount
 VALUES ('Mensalidade Academia', '2024-01-10', '2024-01-10', 2, -89.99, (SELECT Id FROM [dbo].[Categorias] WHERE Title='Fitness'), 'carlos@teste.com');
 
 INSERT INTO [dbo].[Transacoes] (Title, CreatedAt, PaidOrReceivedAt, Type, Amount, CategoryId, UserId)
-VALUES ('Passagem de ônibus', '2024-01-15', '2024-01-15', 2, -150.00, (SELECT Id FROM [dbo].[Categorias] WHERE Title='Transporte'), 'carlos@teste.com');
+VALUES (N'Passagem de ônibus', '2024-01-15', '2024-01-15', 2, -150.00, (SELECT Id FROM [dbo].[Categorias] WHERE Title='Transporte'), 'carlos@teste.com');
 
 INSERT INTO [dbo].[Transacoes] (Title, CreatedAt, PaidOrReceivedAt, Type, Amount, CategoryId, UserId)
 VALUES ('Livros para curso', '2024-01-20', '2024-01-20', 2, -200.00, (SELECT Id FROM [dbo].[Categorias] WHERE Title='Educação'), 'carlos@teste.com');
