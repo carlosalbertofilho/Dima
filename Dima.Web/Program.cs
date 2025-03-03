@@ -38,6 +38,7 @@ builder.Services
 builder.Services.AddTransient<IAccountHandler, AccountHandler>();
 builder.Services.AddTransient<ITransactionHandler, TransactionHandler>();
 builder.Services.AddTransient<ICategoryHandler, CategoryHandler>();
+builder.Services.AddTransient<IReportHandler, ReportHandler>();
 
 // ativa internacionalização
 builder.Services.AddLocalization();
